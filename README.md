@@ -5,5 +5,22 @@ I will attempt to tell a story of food insecurity in the US through data visuali
 
 ## [Datasets](https://drive.google.com/drive/folders/1UfVDDV5s6EmfDVd6umg9ecXJoGy_pD_0?usp=sharing)
 
-* See word doc for more proposal information.
+## Visualization Examples
+
+![4-scatter](Images/prjt2_ex1.png)                              ![4-scatter](Images/prjt2_ex2.png)
+
+
+
+
+![4-scatter](Images/prjt2_ex3.png)                              ![4-scatter](Images/prjt2_ex4.png)
+
+
+
+## Design Sketch
+
+![4-scatter](Images/design_sketch.png)
+
+
+## [Datasets] (https://github.com/m-vasquez/Project2-Food-Insecurity-in-the-US)
+
 
