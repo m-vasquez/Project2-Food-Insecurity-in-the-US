@@ -21,6 +21,6 @@ I will attempt to tell a story of food insecurity in the US through data visuali
 ![4-scatter](Images/design_sketch.png)
 
 
-## [GitHub Repo] (https://github.com/m-vasquez/Project2-Food-Insecurity-in-the-US)
+## [GitHub Repo](https://github.com/m-vasquez/Project2-Food-Insecurity-in-the-US)
 
 
