@@ -65,10 +65,10 @@ select * from usda_state;
 -- creating tables for lat/long county and state data
 
 Create Table county (
-	USPS Varchar(10) not null,
+	USPS Varchar(10) not null, -- abbv of state county is in
 	GEOID INT,
 	ANSICODE INT,
-	NAME Varchar(50) not null,	
+	NAME Varchar(50) not null,	-- name of county
 	ALAND DEC,	
 	AWATER DEC,
 	ALAND_SQMI DEC,	
@@ -78,10 +78,10 @@ Create Table county (
 );
 
 Create Table states (
-	state Varchar(35) not null,
+	state Varchar(35) not null, -- abbv of state
 	latitude DEC not null,
 	longitude DEC not null,
-	name Varchar(30) not null
+	name Varchar(30) not null -- name of state
 );
 
 -- load csv data

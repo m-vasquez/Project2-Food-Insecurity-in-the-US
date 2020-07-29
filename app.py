@@ -53,11 +53,11 @@ def index():
 # pull in state info for map
 @app.route("/api/states")
 def get_data_by_state():
-    
+
     state_results = db.session.query(State_lat_lng, State).filter(State_lat_lng.state == State.abbv).all()
-    state_geo = {}
+    state_data = {}
     for sll, s in state_results:
-        state_geo[sll.name] = {
+        state_data[sll.name] = {
             "lat": float(sll.latitude),
             "lng": float(sll.longitude),
             "state": s.state,
@@ -70,7 +70,11 @@ def get_data_by_state():
             "budget_shortfall": float(s.food_budget_shortfall)
         }  
     # print(state_geo)
-    return jsonify(state_geo)
+    return jsonify(state_data)
+
+    # x = {'a': 'asdf'}
+    # print(x)
+    # return jsonify(x)
 
 # state data
 # @app.route("/api/states/<state>")
@@ -98,8 +102,8 @@ def get_data_by_county():
             "fi_rate_fpl": float(c.fi_rate_below_185_fpl_child),
             "meal_cost": float(c.cost_per_meal),
             "budget_shortfall": float(c.food_budget_shortfall)
-        }  
-    # print(state_geo)
+        }
+    # print(county_data)
     return jsonify(county_data)
 
 if __name__== "__main__":

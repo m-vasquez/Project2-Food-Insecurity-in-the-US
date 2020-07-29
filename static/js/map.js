@@ -1,42 +1,41 @@
-// define path for db info
-var data_state = d3.json("/api/states")
-var data_county = d3.json("/api/counties")
+// // define path for db info
+// d3.json("/api/counties").then(function(data) {
 
-console.log(data_state)
-console.log(data_county)
+// })
 
-// create function to get all data
-function stateData() {
-    return data_state
-}
+// map.addLayers([layer1, layer2])
 
-// create function to get state lat/lng
-function getStateGeo() {
-    return data_state.then(S=>S.latitude && S.longitude)
-    .catch(console.error)
-};
-// getStateGeo()
+d3.json("/api/states").then(function(data) {
+//    console.log(data)
+    createMap(data);    
 
-// create function to get states
-function getStates() {
-    return data_state.then(S => S.state)
-    .catch(console.error)
-}
-// getStates()
+    d3.json("/api/states").then(function(data2) {
+        console.log(data2)
+        createMap(data2);    
+ });
+});
 
 // create funciton for map
-function createMap(data) {
-    var light_map = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
-    attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",    
-    id: 'mapbox/light-v10',
-    // tileSize: 512,
+function createMap(data, data2) {
+var myMap = L.map('map_id', {
+    center: [37.0902, -95.7129],
+    zoom: 5,
+    layers: [light_map, data]
+}); 
+
+var light_map = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+    attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
+    tileSize: 512,
+    maxZoom: 18,
+    zoomOffset: -1,
+    id: "mapbox/streets-v11",
     accessToken: API_KEY
-    });
+    }).addTo(myMap);
 
 var dark_map = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
     attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",    
     id: 'mapbox/dark-v10',
-    // tileSize: 512,
+    tileSize: 512,
     accessToken: API_KEY
     });
 
@@ -45,28 +44,33 @@ var dark_map = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/
         "light": light_map,
         "dark": dark_map
     };
-    // create overlay
+
     var overlayMaps = {
-        'data': data
-    };
-    //create map object
-    var myMap = L.map('map', {
-        center: [37.0902, -95.7129],
-        zoom: 15,
-        layers: [light, data]
-    }); 
-    // control layer and add to map
+        'data': data,
+        'data2': data2
+    }
+
     L.control.layers(baseMaps, overlayMaps, {
         collapsed: false
     }).addTo(myMap);
+    
+    var markers = createMarkers(data)
+    markers.addTo(myMap)
+
+    var markers2 = createMarkers2(data2)
+    markers2.addTo(myMap)
+
 }
 
 // create markers function
-function createMarkers(state) {
-    var stateMarker = state.map(s=> {
-        return L.marker([getStateGeo])//return L.marker([data.latitude, data.longitude]) // does this take care of "mouseover"
-        .bindPopup(`<h3>${s.state}</h3><br/>`, s.fi_rate, s.fi_count, s.fi_rate_child, s.fi_count_child,
-        s.fi_rate_below_185_fpl_child, s.cost_per_meal, s.food_budget_shortfall) 
+function createMarkers(data_state) {
+    var stateMarker = Object.keys(data_state).map(s=> {
+        return L.marker([data_state[s].lat, data_state[s].lng])//return L.marker([data.latitude, data.longitude]) // does this take care of "mouseover"
+        .bindPopup(`<h3> <strong>${data_state[s].state}</strong></h3><hr/>`+ 
+        `<b>FI Rate:</b>${data_state[s].fi_rate}%`+ " " + `<b>FI Count:</b> ${data_state[s].fi_count}<br>` +
+        `<b>FI Child Rate:</b> ${data_state[s].fi_rate_child}%`+ " " +`<b>FI Child Count:</b> ${data_state[s].fi_count_child}<br> `+
+        `<b>Below 185 FPL Rate(child):</b> ${data_state[s].fi_rate_fpl}%<br>`+
+        `<b>Meal Cost:</b> $${data_state[s].meal_cost}` + " " +`<b>Budget Shortfall:</b> $${data_state[s].budget_shortfall} `) 
     });
 
     // create a layer group from the state markers and pass it into the map function
@@ -74,53 +78,29 @@ function createMarkers(state) {
     return markerLayer;
 };
 
-// function createMarkers(response) {
-//     // Pull the "state" property off of response
-//     var states = response.state;
-  
-//     // Initialize an array to hold bike markers
-//     var stateMarkers = [];
-  
-//     // Loop through the stations array
-//     for (var index = 0; index < states.length; index++) {
-//       var state = states[index];
-  
-//       // For each station, create a marker and bind a popup with the station's name
-//       var stateMarker = L.marker([state.lat, state.lon])
-//         .bindPopup("<h3>" + state.state + "<h3><h3>fi_rate: " + state.fi_rate + "</h3>");
-  
-//       // Add the marker to the bikeMarkers array
-//       stateMarkers.push(stateMarker);
-//     }
+function createMarkers2(data_county) {
+    var countyMarker = Object.keys(data_county).map(s=> {
+        return L.marker([data_county[s].lat, data_county[s].lng])//return L.marker([data.latitude, data.longitude]) // does this take care of "mouseover"
+        .bindPopup(`<h3> <strong>${data_county[s].county}</strong></h3><hr/>`+ 
+        `<b>FI Rate:</b>${data_county[s].fi_rate}%`+ " " + `<b>FI Count:</b> ${data_county[s].fi_count}<br>` +
+        `<b>FI Child Rate:</b> ${data_county[s].fi_rate_child}%`+ " " +`<b>FI Child Count:</b> ${data_county[s].fi_count_child}<br> `+
+        `<b>Below 185 FPL Rate(child):</b> ${data_county[s].fi_rate_fpl}%<br>`+
+        `<b>Meal Cost:</b> $${data_county[s].meal_cost}` + " " +`<b>Budget Shortfall:</b> $${data_county[s].budget_shortfall} `) 
+    });
 
-//     // create a layer group from the state markers and pass it into the map function
-//     var markerLayer = L.layerGroup(stateMarkers)
-//     return markerLayer;
-  
-//     // // Create a layer group made from the bike markers array, pass it into the createMap function
-//     // createMap(L.layerGroup(bikeMarkers));
-//   }
+    // create a layer group from the state markers and pass it into the map function
+    var markerLayer = L.layerGroup(countyMarker)
+    return markerLayer;
+};
+
+
+
   
 
-// perform call to get state data info and call markers 
-// function run() {
-//     getStates().then(s=>{
-//         return createMarkers;
-//     }).then(markerLayer => {
-//         return createMap(markerLayer);
-//     })
-// }
-
-// function handleError(err) {
-//     console.error(err);
-//     d3.select('map').text('<h1>an error has occured</h1>');
-// }
-
-function runAll() {
-    getStates().then(createMarkers).then(createMap)//.catch(handleError);
-}
-
-runAll();
 
 
-// county info
+
+
+
+
+
