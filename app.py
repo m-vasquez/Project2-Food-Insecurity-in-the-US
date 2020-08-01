@@ -36,9 +36,9 @@ for table in base.classes:
     print(table)
 
 # map_the_meal_county
-County = base.classes.map_the_meal_county ### (is a join needed and a view created which combines map_the_meal_county
-                                            ### with the necessary lat/long i.e the map_the_meal_county table and county table????)
-State = base.classes.map_the_meal_state  ### same as above w/state data
+County = base.classes.map_the_meal_county 
+                                            
+State = base.classes.map_the_meal_state  
 USDA = base.classes.usda
 USDA_state = base.classes.usda_state
 State_lat_lng = base.classes.states
@@ -93,6 +93,8 @@ def get_data_by_county():
         county_data[cll.name] = {
             "lat": float(cll.intptlat),
             "lng": float(cll.intptlng),
+            "geoid": float(cll.geoid),
+            "fips": float(c.fips),
             "state": c.state, # name of the state county is in
             "county": c.county, # name of indv county
             "fi_rate": float(c.fi_rate),
@@ -105,6 +107,36 @@ def get_data_by_county():
         }
     # print(county_data)
     return jsonify(county_data)
+
+# USDA data
+@app.route("/api/usda")
+def get_usda_data():
+
+    usda_results = db.session.query(USDA).all()
+    usda_data = []
+    for x in usda_results:
+       usda_dict = {}
+       usda_dict["id"] = x.id
+       usda_dict["category"] = x.category
+       usda_dict["year"] = float(x.year)
+       usda_dict["toal_hh"] = float(x.total_hh_1000)
+       usda_dict["fi_count"] = float(x.fi_count_1000)
+       usda_dict["fi_rate"] = float(x.fi_rate)
+       usda_data.append(usda_dict)
+       
+    return jsonify(usda_data)
+
+    # for x in usda_results:
+    #     usda_d[x.id] = {
+    #         "cateogry": x.category,
+    #         "year": float(x.year),
+    #         "total_hh": float(x.total_hh_1000),
+    #         "fi_count": float(x.fi_count_1000),
+    #         "fi_rate": float(x.fi_rate)
+    #     }
+    # usda_data.append(usda_d)  
+    # print(usda_results)
+    # return usda_results
 
 if __name__== "__main__":
     app.run(debug=True)

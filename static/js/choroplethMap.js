@@ -17,51 +17,43 @@ var myMap = L.map("map_id", {
 d3.json("/api/states").then(function(data) {
 console.log(data)      
   // Load in geojson data
-  d3.json("https://leafletjs.com/examples/choropleth/us-states.js").then(geoJson => {
+  d3.json("https://docs.mapbox.com/mapbox-gl-js/assets/us_states.geojson").then(geoJson => {
     geoJson.features.forEach(feature => {
        feature.properties[fi_rate] = data[feature.properties.name][fi_rate]
      });
 
     // Create a new choropleth layer
-      L.choropleth(a, {
-      // Define what  property in the features to use
+      L.choropleth(x, {
       valueProperty: "fi_rate",
-      // Set color scale
       scale: ["#ffffb2", "#b10026"],
-      // Number of breaks in step range
       steps: 10,
-      // q for quartile, e for equidistant, k for k-means
       mode: "q",
       style: {
-        // Border color
-        color: "#fff",
+        color: "black",
         weight: 1,
-        fillOpacity: 0.8},
+        fillOpacity: 0.7},
   
-      // Binding a pop-up to each layer
+      // Binding a pop up to each layer
       onEachFeature: function(feature, layer) {
-        // Set mouse events to change map styling
         layer.on({
-          // When a user's mouse touches a map feature, the mouseover event calls this function, that feature's opacity changes to 90% so that it stands out
           mouseover: function(event) {
             layer = event.target;
             layer.setStyle({
               fillOpacity: 0.9
             });
           },
-          // When the cursor no longer hovers over a map feature - when the mouseout event occurs - the feature's opacity reverts back to 50%
+        
           mouseout: function(event) {
             layer = event.target;
             layer.setStyle({
               fillOpacity: 0.5
             });
           },
-          // When a feature is clicked, it is enlarged to fit the screen
+          // When a feature is clicked it is enlarged to fit the screen
           click: function(event) {
             myMap.fitBounds(event.target.getBounds());
           }
         });
-        // Giving each feature a pop-up with information pertinent to it
         layer.bindPopup("<h1>" + feature.properties.name + "</h1> <hr> <h2>" + feature.properties.fi_rate + "</h2>");
   
       }

@@ -34,7 +34,7 @@ Create Table map_the_meal_state (
 
 Create Table usda(
 	id Serial Primary Key,
-	year INT,
+	year INT,			-- year for chosen data
 	category VARCHAR(40),
 	total_hh_1000 INT, 
 	fi_count_1000 INT,
@@ -44,8 +44,8 @@ Create Table usda(
 -- create table for USDA state data
 Create Table usda_state (
 	id Serial Primary Key,
-	state VARCHAR(10),
-	year VARCHAR(15), 
+	state VARCHAR(10), -- state name
+	year VARCHAR(15), -- year block of data
 	num_households INT,
 	num_intv INT,
 	fi_rate DEC,
