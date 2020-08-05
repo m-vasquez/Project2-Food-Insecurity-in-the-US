@@ -196,28 +196,75 @@ var myMap = L.map("map_id", {
  //         : 'Hover over a county!');
  // };
  // info.addTo(myMap);
- function style(feature) {
-    if (feature === undefined) {
-  feature = '0'
- }
-  return {
-      fillColor: getColor(feature),//"orchid", //getColor(feature.properties.countyData.fi_rate), //getColor(x.fi_rate),
-      weight: 2,
-      opacity: 1,
-      color: 'white',
-      dashArray: '2',
-      fillOpacity: 0.7
-  };
- }
- function getColor(r) {
-  return r = 0 ? 'red' :
-         r > 5  ? 'palevioletred' :
-         r > 10  ? 'lawngreen' :
-         r > 15  ? 'peachpuff' :
-         r > 20   ? 'mistyrose' :
-         r > 25   ? 'papayawhip' :
-                    'gainsboro';
- }
+//  function style(feature) {
+//   var weight;
+//   if (feature === undefined) {
+//     weight = 0;
+//    } else {
+//     weight = feature.properties.countyData.fi_rate
+//    }
+//   return {
+//       fillColor: getColor(weight), //getColor(x.fi_rate),
+//       weight: 2,
+//       opacity: 1,
+//       color: 'white',
+//       dashArray: '2',
+//       fillOpacity: 0.7
+//   };
+//  }
+ function getColor(feature) {
+  switch (true) {
+  case feature = 0 :
+    return "grey";
+  case feature >= 5 :
+    return "palevioletred";
+  case feature >= 10 :
+    return "lawngreen";
+  case feature >= 15 : 
+    return "mistyrose";
+  case feature >= 20 :
+    return "papayawhip";
+  case feature >= 25 :
+    return "gainsboro";
+  default:
+    return "black";
+  }
+}
+
+
+//  function style(feature) {
+//   return {
+//       fillColor: getColor(feature.properties.countyData.fi_rate),//"orchid", //getColor(feature.properties.countyData.fi_rate), //getColor(x.fi_rate),
+//       weight: 2,
+//       opacity: 1,
+//       color: 'white',
+//       dashArray: '2',
+//       fillOpacity: 0.7
+//   };
+// }
+
+//  function style(feature) {
+//     if (feature === undefined) {
+//   feature = 'None'
+//  }
+//   return {
+//       fillColor: getColor(feature.properties.countyData.fi_rate), //getColor(x.fi_rate),
+//       weight: 2,
+//       opacity: 1,
+//       color: 'white',
+//       dashArray: '2',
+//       fillOpacity: 0.7
+//   };
+//  }
+//  function getColor(r) {
+//   return r = 0 ? 'red' :
+//          r > 5  ? 'palevioletred' :
+//          r > 10  ? 'lawngreen' :
+//          r > 15  ? 'peachpuff' :
+//          r > 20   ? 'mistyrose' :
+//          r > 25   ? 'papayawhip' :
+//                     'gainsboro';
+//  }
  var legend = L.control({position: 'bottomright'});
  legend.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'info legend'),
@@ -303,7 +350,19 @@ var myMap = L.map("map_id", {
             // scale: ["papayawhip", "palevioletred", "mistyrose", "peachpuff"],
             steps: 10,
             mode: "q",
-            style: style(feature.fi_rate),
+            style: function(feature) {
+              if (feature.properties.countyData === undefined) {
+                feature.properties.countyData = 'None'
+               }
+              return {
+                color: "white",
+                // Call the chooseColor function to decide which color to color our neighborhood (color based on borough)
+                fillColor: getColor(feature.properties.fi_rate),
+                fillOpacity: 0.5,
+                weight: 1.5
+              };
+            },
+        
             // bind a pop-up for each layer
             onEachFeature: onEachFeature1
         }).addTo(myMap);
