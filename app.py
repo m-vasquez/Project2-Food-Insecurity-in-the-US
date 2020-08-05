@@ -128,20 +128,20 @@ def get_usda_data():
        
     return jsonify(usda_data)
 
-@app.route("/api/usdastate")
-def get_usda_state_data():
+# @app.route("/api/usdastate")
+# def get_usda_state_data():
 
-    usda_state_results = db.session.query(USDA_state).all()
-    usda_state_data = []
-    for x in usda_state_results:
-       usda_state_dict = {}
-       usda_state_dict["state"] = x.state
-       usda_state_dict["id"] = x.id
-       usda_state_dict["year"] = (x.year)
-       usda_state_dict["fi_rate"] = float(x.fi_rate)
-       usda_state_data.append(usda_state_dict)
+#     usda_state_results = db.session.query(USDA_state).all()
+#     usda_state_data = []
+#     for x in usda_state_results:
+#        usda_state_dict = {}
+#        usda_state_dict["state"] = x.state
+#        usda_state_dict["id"] = x.id
+#        usda_state_dict["year"] = (x.year)
+#        usda_state_dict["fi_rate"] = float(x.fi_rate)
+#        usda_state_data.append(usda_state_dict)
        
-    return jsonify(usda_state_data)
+#     return jsonify(usda_state_data)
 
 if __name__== "__main__":
     app.run(debug=True)

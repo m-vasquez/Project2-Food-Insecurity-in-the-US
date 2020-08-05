@@ -23,126 +23,112 @@ info.onAdd = function (myMap) {
   return this._div;
 };
 
-// method that we will use to update the control based on feature properties passed
+// use for map style
 info.update = function (feature) {
-  // if (feature.properties.stateData === undefined) {
-  //   feature.properties.stateData = 'None'
-  //  }
-      this._div.innerHTML = '<h4>US Food Insecurity by State</h4>' +  (feature ?
-        '<b>' + feature.properties.stateData.county+ '</b><br />' + "<b>FI Rate: </b> " + feature.properties.stateData.fi_rate + '%' + "<b>FI Count: </b> " 
-        + feature.properties.stateData.fi_count + '<br>' + "<b>FI Child Rate: </b> " + 'props.fi_rate_child' + '%' + ' ' + 
-        "<b>FI Child Count: </b> " + feature.properties.stateData.fi_count_child + '<br>' + "<b>Below 185 FPL (child): </b>" + 
-        feature.properties.stateData.fi_rate_fpl + "%" + "<br>" + "<b>Budget Shortfall:</b> $" + feature.properties.stateData.budget_shortfall
-        : 'Hover over a state for more information!');
-  // this._div.innerHTML = '<h4>US Food Insecurity by State</h4>' +  (feature ?
-  //   '<b>' + "testing"+ '</b><br />' + feature.properties.countyData.county
-  //   : 'Choose a state for more info!');
+  this._div.innerHTML = '<h4>US Food Insecurity by State</h4>' + 'Choose a state for more info!'
 };
-
-
 info.addTo(myMap);
 
-function style(feature) {
+function getColor(feature) {
+  // console.log(feature)
+  switch (true) {
+    case feature <= 10000000:
+      return "snow";
+    case feature <= 50000000:
+      return "blue";
+    case feature <= 100000000:
+      return "deepskyblue";
+    case feature <= 250000000:
+      return "dodgerblue";
+    case feature <= 500000000:
+      return "royalblue";
+    case feature <= 750000000:
+      return "slateblue";
+    case feature <= 1000000000:
+      return "mediumpurple";
+    case feature <= 1500000000:
+      return "darkviolet";
+    default:
+      return "indigo";
+  }
+}
+
+function styleCounty(feature) {
+  var color = "lightsalmon"
+  if (feature.properties.stateData !== undefined) {
+
+    color = getColor(feature.properties.stateData.budget_shortfall)
+  }
   return {
-      fillColor: "lightsalmon", //getColor(feature.properties.countyData.fi_rate),
-      weight: 2,
-      opacity: 1,
-      color: 'white',
-      dashArray: '2',
-      fillOpacity: 0.7
+    fillColor: color,
+    weight: 2,
+    opacity: 1,
+    color: 'whitesmoke',
+    dashArray: '2',
+    fillOpacity: 0.9
   };
 }
-console.log(feature)
 
-function getColor(r) {
-  return r > 5  ? 'goldenrod' :
-         r > 10  ? 'honeydew' :
-         r > 15  ? 'lightsalmon' :
-         r > 20   ? 'lavenderblush' :
-         r > 25   ? 'peachpuff' :
-                    'slategrey';
-}
+// add a legend for colorscale
+var legend = L.control({position: 'bottomright'});
 
-// var legend = L.control({position: 'bottomright'});
+legend.onAdd = function (map) {
 
-// legend.onAdd = function (myMap) {
-
-//   var div = L.DomUtil.create('div', 'info legend'),
-//       colorGrades = [0, 5, 10, 15, 20, 25];
-//       div.innerHTML += "<h4><b>Food Insecurity</b></h4>" 
-//   // loop through our density intervals and generate a label with a colored square for each interval
-//   for (var i = 0; i < colorGrades.length; i++) {
-//       div.innerHTML +=
-//           '<i style="background:' + getColor(colorGrades[i] + 1) + '"></i> ' + 
-//           colorGrades[i] + (colorGrades[i + 1] ? '&ndash;' + colorGrades[i + 1] + '%' + '<br>' : '+');
-//   }
-//   return div;
-// };
-// legend.addTo(myMap);
-
+    var div = L.DomUtil.create('div', 'info legend'),
+        grades = [10000000, 50000000, 100000000, 250000000, 500000000, 750000000, 1000000000, 1500000000],
+        labels = [];
+        div.innerHTML += "<h4><b>Food Insecurity</b></h4>"
+    // loop through our density intervals and generate a label with a colored square for each interval
+    for (var i = 0; i < grades.length; i++) {
+        div.innerHTML += 
+            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+    }
+    return div;
+};
+legend.addTo(myMap);
 
 function highlightFeature(e) {
-var layer = e.target;
-info.update(layer.feature.properties)
-
-layer.setStyle({
-    weight: 1,
-    color: 'thistle',
-    dashArray: '',
-    fillOpacity: 0.5
-});
-
-if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-    layer.bringToFront();
-}
-}
-
-function resetHighlight(e) {
-geojsonmap.resetStyle(e.target);
-info.update();
-}
-
-function zoomToFeature(e) {
-myMap.fitBounds(e.target.getBounds());
-}
-
-function onEachFeature1(feature, layer) {
-layer.on({
-    mouseover: function(event) {
-      layer = event.target;
-      layer.setStyle({
-        fillOpacity: 0.9
-      });
-    },
+  var layer = e.target;
+  info.update(layer.feature.properties)
   
-    mouseout: function(event) {
-      layer = event.target;
-      layer.setStyle({
-        fillOpacity: 0.7
-      });
-    },
-  //   click: function(event) {
-  //           myMap.fitBounds(event.target.getBounds());
-  //         }   
-});
-if (feature.properties.stateData === undefined) {
-  feature.properties.stateData = 'None'
- }
-layer.bindPopup("<h3>" + feature.properties.stateData.state + "</h3> " + "<hr>" + "<b> FI Rate: </b>" + feature.properties.stateData.fi_rate + "%" + " " + "<b>FI Count: </b>" + feature.properties.stateData.fi_count +
-"<br>" + "<b>FI Child Rate:</b> " + feature.properties.stateData.fi_rate_child + "%" + " " + "<b>FI Child Count: </b>" + feature.properties.stateData.fi_count_child + "<br>" +
-"<b>Below 185 FPL (child):</b> " + feature.properties.stateData.fi_rate_fpl + "%" + "<br>" + "<b>Budget Shortfall:</b> $" + feature.properties.stateData.budget_shortfall)
-// layer.bindPopup("<h1>" + feature.properties.countyData + "</h1> ")
-}
+  layer.setStyle({
+      weight: 1,
+      color: 'thistle',
+      dashArray: '',
+      fillOpacity: 0.5
+  });
+  
+  if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+      layer.bringToFront();
+  }
+  }
+  
+  function resetHighlight(e) {
+  geojsonmap.resetStyle(e.target);
+  info.update();
+  }
+ 
+function onEachFeature(feature, layer) {
+  layer.on({
+      mouseover: highlightFeature,
+      mouseout: resetHighlight,
+  });
+  if (feature.properties.stateData === undefined) {
+    feature.properties.stateData = 'None'
+   }
+  layer.bindPopup("<h3>" + feature.properties.stateData.state + "</h3> " + "<hr>" + "<b> FI Rate: </b>" + feature.properties.stateData.fi_rate + "%" + " " + "<b>FI Count: </b>" + feature.properties.stateData.fi_count +
+  "<br>" + "<b>FI Child Rate:</b> " + feature.properties.stateData.fi_rate_child + "%" + " " + "<b>FI Child Count: </b>" + feature.properties.stateData.fi_count_child + "<br>" +
+  "<b>Below 185 FPL (child):</b> " + feature.properties.stateData.fi_rate_fpl + "%" + "<br>" + "<b>Budget Shortfall:</b> $" + feature.properties.stateData.budget_shortfall)
+  // layer.bindPopup("<h1>" + feature.properties.countyData + "</h1> ")
+  }
+
 
 d3.json("../static/data/geoJsonState.json").then(function(geoJsonData) {
   // perform GET req
   d3.json("/api/states").then(DATA => {
     geoJsonData.features.forEach(feature => {
-      // var state_Name = Object.keys(DATA)
-      // var state_Data = Object.values(DATA)
-      // var fiRate = Object.values(DATA).map(state => {
-      //     return state.fi_rate
-      // });
+     
       var stateName = feature.properties.NAME;
       var state = Object.keys(DATA).find(state => {
         return stateName === DATA[state].state;
@@ -151,13 +137,11 @@ d3.json("../static/data/geoJsonState.json").then(function(geoJsonData) {
     });
           
         // create choropleth
-        geojsonmap= L.choropleth(geoJsonData, {
-            valueProperty: "fi_rate",
-            steps: 10,
-            mode: "q",
-            style: style,
-            // bind a pop-up for each layer
-            onEachFeature: onEachFeature1
+        geojsonmap = L.geoJson(geoJsonData, {
+          style: styleCounty,
+    
+          // bind a pop-up for each layer
+          onEachFeature: onEachFeature
         }).addTo(myMap);
-  })
-})
+      })
+    })

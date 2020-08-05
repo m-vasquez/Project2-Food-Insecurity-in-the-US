@@ -1,16 +1,4 @@
 
-/* #map_id,
-body,
-html {
-  height: 80%;
-} */
-
-/* #map_id {
-    position: relative; */
-    /* top: 0;
-    bottom: 0;
-    width: 70%; */
-  /* } */
 
 body {
   margin: 0;
@@ -39,6 +27,15 @@ h3{
   font-size: 18px;
   font-weight: bold;
   padding-bottom: 0px;
+  padding-top: 0px;
+}
+
+h5{
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 15px;
+  /* font-weight: bold; */
+  padding-bottom: 0px;
+  padding-top: 0px;
 }
 
 .info {

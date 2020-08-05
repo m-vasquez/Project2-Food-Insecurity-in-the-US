@@ -1,0 +1,8 @@
+
+/.ipynb_checkpoints/*
+/Images/*
+
+/__pycache__/*
+pg_admin_pw.py
+config.py
+postgres_pw.py

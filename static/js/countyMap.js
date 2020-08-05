@@ -20,31 +20,29 @@ info.onAdd = function (map) {
   this.update();
   return this._div;
 };
-// method to update the control based on feature properties passed
+// add map explanation/title
 info.update = function (feature) {
-  this._div.innerHTML = '<h4>US Food Insecurity by County</h4>' + (feature ?
-    '<b>' + "testing" + '</b><br />' + feature.properties.countyData.county
-    : 'Choose a county for more info!');
+  this._div.innerHTML = '<h4>US Food Insecurity by County</h4>' + 'Choose a county for more info!'
 };
 info.addTo(myMap);
 
 function getColor(feature) {
   // console.log(feature)
   switch (true) {
-    case feature == 0:
+    case feature <= 0:
       return "red";
     case feature <= 5:
       return "dodgerblue";
     case feature <= 10:
-      return "lightsteelblue";
-    case feature <= 15:
-      return "indianred";
-    case feature <= 20:
       return "slateblue";
+    case feature <= 15:
+      return "rebeccapurple";
+    case feature <= 20:
+      return "mediumpurple"; 
     case feature <= 25:
-      return "mediumpurple";
+      return "orchid"; 
     case feature <= 35:
-      return "orchid";
+      return "indianred"; 
     default:
       return "lightsalmon";
   }
@@ -58,7 +56,7 @@ function styleCounty(feature) {
   }
   return {
     fillColor: color,
-    weight: 2,
+    weight: 1,
     opacity: 1,
     color: 'white',
     dashArray: '2',
@@ -85,31 +83,36 @@ legend.onAdd = function (map) {
 };
 legend.addTo(myMap);
 
+function highlightFeature(e) {
+  var layer = e.target;
+  info.update(layer.feature.properties)
+  
+  layer.setStyle({
+      weight: 1,
+      color: 'thistle',
+      dashArray: '',
+      fillOpacity: 0.5
+  });
+  
+  if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+      layer.bringToFront();
+  }
+  }
+  
+  function resetHighlight(e) {
+  geojsonmap.resetStyle(e.target);
+  info.update();
+  }
+ 
 function onEachFeature1(feature, layer) {
-  // console.log(feature.countyData)
-  var props = feature.properties
-
   layer.on({
-    mouseover: function (event) {
-      layer = event.target;
-      layer.setStyle({
-        fillOpacity: 0.9
-      });
-    },
-    mouseout: function (event) {
-      layer = event.target;
-      layer.setStyle({
-        fillOpacity: 0.7
-      });
-    },
-    // click: function(event) {
-    //         myMap.fitBounds(event.target.getBounds());
-    //       }  
+      mouseover: highlightFeature,
+      mouseout: resetHighlight,
   });
   if (feature.properties.countyData === undefined) {
     feature.properties.countyData = 'None'
-  }
-  layer.bindPopup("<h3>" + feature.properties.countyData.county + "</h3> " + "<hr>" + "<b> FI Rate: </b>" + feature.properties.countyData.fi_rate + "%" + " " + "<b>FI Count: </b>" + feature.properties.countyData.fi_count +
+   }
+  layer.bindPopup("<h5>" + feature.properties.countyData.county + "</h5> " + "<hr>" + "<b> FI Rate: </b>" + feature.properties.countyData.fi_rate + "%" + " " + "<b>FI Count: </b>" + feature.properties.countyData.fi_count +
     "<br>" + "<b>FI Child Rate:</b> " + feature.properties.countyData.fi_rate_child + "%" + " " + "<b>FI Child Count: </b>" + feature.properties.countyData.fi_count_child + "<br>" +
     "<b>Below 185 FPL (child):</b> " + feature.properties.countyData.fi_rate_fpl + "%" + "<br>" + "<b>Budget Shortfall:</b> $" + feature.properties.countyData.budget_shortfall)
 }
