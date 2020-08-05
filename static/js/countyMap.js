@@ -1,10 +1,10 @@
 var myMap = L.map("map_id", {
     center: [37.0902, -95.7129],
     zoom: 4.5,
-    layer: greymap
+    layer: tilemap
 });
 
-var greymap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+var tilemap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
     attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
     tileSize: 512,
     maxzoom: 18,
@@ -23,10 +23,10 @@ info.onAdd = function (map) {
     return this._div;
 };
 
-// method that we will use to update the control based on feature properties passed
+// method to update the control based on feature properties passed
 info.update = function (props) {
     this._div.innerHTML = '<h4>US Food Insecurity</h4>' +  (props ?
-        '<b>' + "testing"+ '</b><br />' + props.features.properties.countyData.county
+        '<b>' + "testing"+ '</b><br />' + props.feature.properties.countyData.county
         : 'Hover over a county!');
 };
 //     this._div.innerHTML = '<h4>US Food Insecurity</h4>' +  (props ?
@@ -41,7 +41,7 @@ info.addTo(myMap);
 
 function style(feature) {
     return {
-        fillColor: "orchid", //getColor(feature),
+        fillColor: getColor(x.fi_rate),//"orchid", //getColor(feature.properties.countyData.fi_rate), //getColor(x.fi_rate),
         weight: 2,
         opacity: 1,
         color: 'white',
@@ -121,14 +121,14 @@ function onEachFeature1(feature, layer) {
     //           myMap.fitBounds(event.target.getBounds());
     //         }   
   });
-  layer.bindPopup("<h3>" + x.county + "</h3> " + "<hr>" + "<b> FI Rate: </b>" + x.fi_rate + "%" + " " + "<b>FI Count: </b>" + x.fi_count +
-  "<br>" + "<b>FI Child Rate:</b> " + x.fi_rate_child + "%" + " " + "<b>FI Child Count: </b>" + x.fi_count_child + "<br>" +
-  "<b>Below 185 FPL (child):</b> " + x.fi_rate_fpl + "%" + "<br>" + "<b>Budget Shortfall:</b> $" + x.budget_shortfall)
-  // layer.bindPopup("<h1>" + x.county + "</h1> ")
+  // layer.bindPopup("<h3>" + x.county + "</h3> " + "<hr>" + "<b> FI Rate: </b>" + x.fi_rate + "%" + " " + "<b>FI Count: </b>" + x.fi_count +
+  // "<br>" + "<b>FI Child Rate:</b> " + x.fi_rate_child + "%" + " " + "<b>FI Child Count: </b>" + x.fi_count_child + "<br>" +
+  // "<b>Below 185 FPL (child):</b> " + x.fi_rate_fpl + "%" + "<br>" + "<b>Budget Shortfall:</b> $" + x.budget_shortfall)
+  layer.bindPopup("<h1>" + x.county + "</h1> ")
 }
 
 d3.json("../static/data/geoJsonCounty.json").then(function(geoJsonData) {
-  console.log(geoJsonData)
+  // console.log(geoJsonData)
     // perform GET req
     d3.json("/api/counties").then(countiesData => {
       // console.log(countiesData)
@@ -145,13 +145,13 @@ d3.json("../static/data/geoJsonCounty.json").then(function(geoJsonData) {
           x = feature.properties.countyData = countiesData[county];
           // console.log(x)
         });
-        // console.log(geoJsonData)
+        console.log(x)
         
           // create choropleth
           geojsonmap= L.choropleth(geoJsonData, {
-              valueProperty: "x.fi_rate",
+              valueProperty: "fi_rate",
               // set color scale
-              scale: ["papayawhip", "palevioletred", "mistyrose", "peachpuff"],
+              // scale: ["papayawhip", "palevioletred", "mistyrose", "peachpuff"],
               steps: 10,
               mode: "q",
               style: style(x.fi_rate),
