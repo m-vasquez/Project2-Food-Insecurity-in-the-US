@@ -101,7 +101,7 @@ def get_data_by_county():
         county_data[cll.name] = {
             "lat": float(cll.intptlat),
             "lng": float(cll.intptlng),
-            "coordinates": [float(cll.intptlng), float(cll.intptlat)],
+            # "coordinates": [float(cll.intptlng), float(cll.intptlat)],
             "geoid": float(cll.geoid),
             "fips": float(c.fips),
             "state": c.state, # name of the state county is in

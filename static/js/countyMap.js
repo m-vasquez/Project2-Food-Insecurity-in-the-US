@@ -41,7 +41,7 @@ info.addTo(myMap);
 
 function style(feature) {
     return {
-        fillColor: "orchid", //getColor(feature.properties.countyData.fi_rate),
+        fillColor: "orchid", //getColor(feature),
         weight: 2,
         opacity: 1,
         color: 'white',
@@ -124,12 +124,14 @@ function onEachFeature1(feature, layer) {
   layer.bindPopup("<h3>" + x.county + "</h3> " + "<hr>" + "<b> FI Rate: </b>" + x.fi_rate + "%" + " " + "<b>FI Count: </b>" + x.fi_count +
   "<br>" + "<b>FI Child Rate:</b> " + x.fi_rate_child + "%" + " " + "<b>FI Child Count: </b>" + x.fi_count_child + "<br>" +
   "<b>Below 185 FPL (child):</b> " + x.fi_rate_fpl + "%" + "<br>" + "<b>Budget Shortfall:</b> $" + x.budget_shortfall)
-  // layer.bindPopup("<h1>" + feature.properties.countyData + "</h1> ")
+  // layer.bindPopup("<h1>" + x.county + "</h1> ")
 }
 
 d3.json("../static/data/geoJsonCounty.json").then(function(geoJsonData) {
+  console.log(geoJsonData)
     // perform GET req
     d3.json("/api/counties").then(countiesData => {
+      // console.log(countiesData)
         geoJsonData.features.forEach(feature => {
           var countyName = Object.keys(countiesData)
           var county_Data = Object.values(countiesData)
@@ -137,11 +139,14 @@ d3.json("../static/data/geoJsonCounty.json").then(function(geoJsonData) {
               return county.fi_rate
           });
           var countyGeoId = parseInt(feature.properties.GEO_ID.slice(9,14));
-          var county = Object.keys(countiesData).find.filter(Boolean)(county => {
+          var county = Object.keys(countiesData).filter(Boolean).find(county => {
             return countyGeoId === countiesData[county].geoid;
           });
           x = feature.properties.countyData = countiesData[county];
+          // console.log(x)
         });
+        // console.log(geoJsonData)
+        
           // create choropleth
           geojsonmap= L.choropleth(geoJsonData, {
               valueProperty: "x.fi_rate",
@@ -149,7 +154,7 @@ d3.json("../static/data/geoJsonCounty.json").then(function(geoJsonData) {
               scale: ["papayawhip", "palevioletred", "mistyrose", "peachpuff"],
               steps: 10,
               mode: "q",
-              style: style,
+              style: style(x.fi_rate),
               // bind a pop-up for each layer
               onEachFeature: onEachFeature1
           }).addTo(myMap);
