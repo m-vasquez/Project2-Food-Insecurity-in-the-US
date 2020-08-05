@@ -41,6 +41,7 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="state">US States Data</a>
+            <a class="dropdown-item" href="statebubble">US States Bubble</a>
             <a class="dropdown-item" href="county">US County Data</a>
             <div class="dropdown-divider"></div>
           </div>
@@ -80,22 +81,22 @@
       </div>
   
     <div class="row"> 
-      <div class="col-md-6">
-        <div id="bubble"></div>
+      <div class="col-md-12">
+        <div id="scatter"></div>
       </div>
     </div>
   </div>
  
-    <div class="col-md-8" style = "padding-bottom: 10px;">
+    <!-- <div class="col-md-8">
         <div id="scatter"></div>
-      </div>
+      </div> -->
     <!-- </div></div> -->
     <div class ="container"> 
-      <div class="col-md-5" style = "padding-top: 10px;">
+      <div class="col-md-3" style = "padding-top: 10px;">
         <div id="pie"></div>
       </div>
-    <div class="col-md-5" style = "padding-top: 10px">
-        <div id="pie2"></div>
+    <div class="col-md-7" style = "padding-top: 10px">
+        <div id="bubble"></div>
       </div>
     </div>
   <!-- </div>
@@ -115,7 +116,7 @@
   <script type="text/javascript" src="../static/js/getInjectedTransformString.js"></script>
   <script type="text/javascript" src="../static/js/defaultAnimation.js"></script> -->
   JS
-  <!-- <script type="text/javascript" src="../static/js/map.js"></script> -->
+  <script type="text/javascript" src="../static/js/chroma.js"></script>
   <script type="text/javascript" src="../static/js/chart.js"></script>
   <!-- <script type="text/javascript" src="../static/js/countyMap.js"></script> -->
   <div class="footer text-center" style="margin-bottom:0">

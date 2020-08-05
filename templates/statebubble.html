@@ -3,7 +3,7 @@
 
   <head>
     <meta charset="utf-8">
-    <title>project2</title>
+    <title>state bubble</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
       integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
       crossorigin=""/>
@@ -17,14 +17,16 @@
 
     <link rel="stylesheet" type="text/css" href="../static/css/mapStyle.css">
     <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js'></script>
-  <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css' rel='stylesheet' />
-  </head>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css' rel='stylesheet' />
+    </head>
 
-  <body>
-    <!-- set up nav bar -->
+
+
+<body>
+  <!-- set up nav bar -->
     
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-  <a class="navbar-brand text-white" href="/">Food Insecurity Home Page </a>
+  <a class="navbar-brand text-white" href="/">Food Insecurity Home Page</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -37,7 +39,6 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="state">US States Data</a>
-            <a class="dropdown-item" href="statebubble">US States Bubble</a>
             <a class="dropdown-item" href="county">US County Data</a>
             <div class="dropdown-divider"></div>
           </div>
@@ -45,37 +46,26 @@
     </ul>
   </div>
 </nav>
+  <svg width="900" height="700">
+    <g></g>
+  </svg>
+
   
-    <div id="map_id" width="400" height="300"></div>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-    <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script> -->
-    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script> -->
-    <!-- <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+  <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
   integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
-  crossorigin=""></script> -->
+  crossorigin=""></script>
+  
+  <!-- API key -->
+  <script type="text/javascript" src="../static/js/config.js"></script>
+  <!-- colors lib -->
+  <script type="text/javascript" src="../static/js/chroma.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js"></script>
+  
+  <!-- JS -->
+  <script type="text/javascript" src="static/js/statebubble.js"></script>
 
-    <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
-    integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
-    crossorigin=""></script>
-    
-    <!-- Choropleth -->
-    <script type="text/javascript" src="../static/js/choropleth.js"></script>
-    <!-- API key -->
-    <script type="text/javascript" src="../static/js/config.js"></script>
-    <!-- colors lib -->
-    <script type="text/javascript" src="../static/js/chroma.js"></script>
-    
-    <!-- <script type="text/javascript" src="../static/data/geoJsonCounty.json"></script>  -->
-    <!-- JS -->
-    <script type="text/javascript" src="static/js/test.js"></script>
-
-
-    <div class="footer text-center" style="margin-bottom:0">
-      <p>&copy; Copyright Marlene Vasquez 2020</p>
-    </div>
-  </body>
-
+  <div class="footer text-center" style="margin-bottom:0">
+    <p>&copy; Copyright Marlene Vasquez 2020</p>
+  </div>
+</body>
 </html>

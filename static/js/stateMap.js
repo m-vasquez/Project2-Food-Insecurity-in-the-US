@@ -17,15 +17,25 @@ var geojsonmap;
 
 var info = L.control();
 
-info.onAdd = function (map) {
+info.onAdd = function (myMap) {
   this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
   this.update();
   return this._div;
 };
 
 // method that we will use to update the control based on feature properties passed
-info.update = function (props) {
-  this._div.innerHTML = '<h4>US Food Insecurity</h4>' + '<hr>' + 'Choose a state for more info'
+info.update = function (feature) {
+  if (feature.properties.stateData === undefined) {
+    feature.properties.stateData = 'None'
+   }
+      this._div.innerHTML = '<h4>US Food Insecurity</h4>' +  (feature ?
+        '<b>' + feature.properties.countyData.county+ '</b><br />' + "<b>FI Rate: </b> " + feature.properties.countyData.fi_rate + '%' + "<b>FI Count: </b> " 
+        + feature.properties.countyData.fi_count + '<br>' + "<b>FI Child Rate: </b> " + 'props.fi_rate_child' + '%' + ' ' + 
+        "<b>FI Child Count: </b> " + feature.properties.countyData.fi_count_child + '<br>' + "<b>Below 185 FPL (child): </b>" + 
+        feature.properties.countyData.fi_rate_fpl + "%" + "<br>" + "<b>Budget Shortfall:</b> $" + feature.properties.countyData.budget_shortfall
+        : 'Hover over a county!');
+
+  // this._div.innerHTML = '<h4>US Food Insecurity</h4>' + '<hr>' + 'Choose a state for more info'
 };
 //     this._div.innerHTML = '<h4>US Food Insecurity</h4>' +  (props ?
 //         '<b>' + props.county+ '</b><br />' + "<b>FI Rate: </b> " + props.fi_rate + '%' + "<b>FI Count: </b> " 
@@ -59,7 +69,7 @@ function getColor(r) {
 
 var legend = L.control({position: 'bottomright'});
 
-legend.onAdd = function (map) {
+legend.onAdd = function (myMap) {
 
   var div = L.DomUtil.create('div', 'info legend'),
       colorGrades = [0, 5, 10, 15, 20, 25];
@@ -119,9 +129,12 @@ layer.on({
   //           myMap.fitBounds(event.target.getBounds());
   //         }   
 });
-layer.bindPopup("<h3>" + x.state + "</h3> " + "<hr>" + "<b> FI Rate: </b>" + x.fi_rate + "%" + " " + "<b>FI Count: </b>" + x.fi_count +
-"<br>" + "<b>FI Child Rate:</b> " + x.fi_rate_child + "%" + " " + "<b>FI Child Count: </b>" + x.fi_count_child + "<br>" +
-"<b>Below 185 FPL (child):</b> " + x.fi_rate_fpl + "%" + "<br>" + "<b>Budget Shortfall:</b> $" + x.budget_shortfall)
+if (feature.properties.stateData === undefined) {
+  feature.properties.stateData = 'None'
+ }
+layer.bindPopup("<h3>" + feature.properties.stateData.state + "</h3> " + "<hr>" + "<b> FI Rate: </b>" + feature.properties.stateData.fi_rate + "%" + " " + "<b>FI Count: </b>" + feature.properties.stateData.fi_count +
+"<br>" + "<b>FI Child Rate:</b> " + feature.properties.stateData.fi_rate_child + "%" + " " + "<b>FI Child Count: </b>" + feature.properties.stateData.fi_count_child + "<br>" +
+"<b>Below 185 FPL (child):</b> " + feature.properties.stateData.fi_rate_fpl + "%" + "<br>" + "<b>Budget Shortfall:</b> $" + feature.properties.stateData.budget_shortfall)
 // layer.bindPopup("<h1>" + feature.properties.countyData + "</h1> ")
 }
 
@@ -138,7 +151,7 @@ d3.json("../static/data/geoJsonState.json").then(function(geoJsonData) {
       var state = Object.keys(DATA).find(state => {
         return stateName === DATA[state].state;
       });
-      x = feature.properties.stateData = DATA[state];
+      feature.properties.stateData = DATA[state];
     });
           // console.log('inside:', DATA) 
         // console.log(stateName)

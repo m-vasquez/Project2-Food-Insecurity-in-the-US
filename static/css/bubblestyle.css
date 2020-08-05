@@ -1,0 +1,16 @@
+
+circle {
+    fill: rgb(127, 156, 235);
+    opacity: 0.3;
+    stroke: white;
+}
+text {
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    fill: white;
+    font-size: 10px;
+    text-anchor: middle;
+}
+body {
+    /* position: -ms-page; */
+    margin-left: 10%;
+}

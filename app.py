@@ -58,6 +58,10 @@ def county():
 def state():
     return render_template("state.html")
 
+@app.route("/statebubble")
+def statebubble():
+    return render_template("statebubble.html")
+
 # pull in state info for map
 @app.route("/api/states")
 def get_data_by_state():
@@ -79,17 +83,6 @@ def get_data_by_state():
         }  
     # print(state_geo)
     return jsonify(state_data)
-
-    # x = {'a': 'asdf'}
-    # print(x)
-    # return jsonify(x)
-
-# state data
-# @app.route("/api/states/<state>")
-# def data_by_state(state):
-#     data_results = db.session.query(state.state,state.fi_rate, state.fi_rate_child, state.fi_count_child, state.fi_rate_below_185_fpl, state.cost_per_meal, state.food_budget_shortfall)
-
-#     # create an array to sort
 
 # pull in county info for map
 @app.route("/api/counties")
