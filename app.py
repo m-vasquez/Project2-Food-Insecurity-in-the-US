@@ -48,7 +48,15 @@ County_lat_lng = base.classes.county
 # set up home route
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("chartIndex.html")
+
+@app.route("/county")
+def county():
+    return render_template("county.html")
+
+@app.route("/state")
+def state():
+    return render_template("state.html")
 
 # pull in state info for map
 @app.route("/api/states")
@@ -93,6 +101,7 @@ def get_data_by_county():
         county_data[cll.name] = {
             "lat": float(cll.intptlat),
             "lng": float(cll.intptlng),
+            "coordinates": [float(cll.intptlng), float(cll.intptlat)],
             "geoid": float(cll.geoid),
             "fips": float(c.fips),
             "state": c.state, # name of the state county is in
@@ -119,24 +128,27 @@ def get_usda_data():
        usda_dict["id"] = x.id
        usda_dict["category"] = x.category
        usda_dict["year"] = float(x.year)
-       usda_dict["toal_hh"] = float(x.total_hh_1000)
+       usda_dict["total_hh"] = float(x.total_hh_1000)
        usda_dict["fi_count"] = float(x.fi_count_1000)
        usda_dict["fi_rate"] = float(x.fi_rate)
        usda_data.append(usda_dict)
        
     return jsonify(usda_data)
 
-    # for x in usda_results:
-    #     usda_d[x.id] = {
-    #         "cateogry": x.category,
-    #         "year": float(x.year),
-    #         "total_hh": float(x.total_hh_1000),
-    #         "fi_count": float(x.fi_count_1000),
-    #         "fi_rate": float(x.fi_rate)
-    #     }
-    # usda_data.append(usda_d)  
-    # print(usda_results)
-    # return usda_results
+@app.route("/api/usdastate")
+def get_usda_state_data():
+
+    usda_state_results = db.session.query(USDA_state).all()
+    usda_state_data = []
+    for x in usda_state_results:
+       usda_state_dict = {}
+       usda_state_dict["state"] = x.state
+       usda_state_dict["id"] = x.id
+       usda_state_dict["year"] = (x.year)
+       usda_state_dict["fi_rate"] = float(x.fi_rate)
+       usda_state_data.append(usda_state_dict)
+       
+    return jsonify(usda_state_data)
 
 if __name__== "__main__":
     app.run(debug=True)

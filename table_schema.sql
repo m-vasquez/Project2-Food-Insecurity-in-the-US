@@ -1,7 +1,7 @@
 -- create table for mmg (FA) county data
 Create Table map_the_meal_county (
 	id Serial Primary Key,
-	FIPS INT,
+	FIPS INT,  -- GEOID
 	state VARCHAR(30),
 	abbv VARCHAR(30),
 	county VARCHAR(40),
@@ -66,7 +66,7 @@ select * from usda_state;
 
 Create Table county (
 	USPS Varchar(10) not null, -- abbv of state county is in
-	GEOID INT,
+	GEOID INT,       -- FIPS #
 	ANSICODE INT,
 	NAME Varchar(50) not null,	-- name of county
 	ALAND DEC,	

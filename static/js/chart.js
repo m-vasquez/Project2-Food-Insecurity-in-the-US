@@ -1,145 +1,212 @@
-// d3.json("/api/usda").then(function(data) {
-    // data.filter(data => data[0] == data.id[1])
-    // console.log(data)
-    // var sampleYear = data[0].year
-    // console.log(sampleYear)
-    // var countChoice = data[0].fi_count
-    // console.log(countChoice)
-    // var filterResult = data.filter(id => id[0] == id.id[1])[0];
-    // console.log(filterResult);
-    // var fiCount = data[0].fi_count;
-    // console.log(`FI Count: ${fiCount}`);
-    // var categoryChoice = data[0].category
-    // console.log(`Category: ${categoryChoice}`)
-    // var fiRate = data[0].fi_rate
-    // console.log(`FI Rate: ${fiRate}`)
-    // var labels = Object.values(data.year)[0];
-    // console.log(labels)
-    // var test = data.fi_count.forEach(x => {
-    //     return x;
-    // // console.log(data)
-    // });
-    // console.log(test)
-    // for (index = 0; index < data.length; index++) { 
-    //     console.log(data[index]); 
-    // } 
-    // data.forEach(myFunction); 
-    // function myFunction(item, index) 
-    // { 
-    // // console.log(item); 
-    // var fiCount = item.fi_count
-    // console.log(`FI Counts: ${fiCount}`)
-    // // get labels for bar chart
-    // var categoryChoice = item.category
-    // console.log(`Categories: ${categoryChoice}`)
-    // // get value for hover
-    // var fiRate = item.fi_rate
-    // console.log(`FI Rates: ${fiRate}`)
+function JSONplots(yearChoice) {
+    var year = yearChoice;
+    d3.json("/api/usda").then((usda) => {
+        // console.log(data)
+        var counttest = []
+        var totaltest = []
+        var categorytest = []
 
-    // }
-    // })
-
-
-function JSONplots(name) {
-
-    d3.json("/api/usda").then(function(data) {
-        data.forEach(myFunction); 
-        function myFunction(item, index) 
-        { 
+        // console.log(year)
+        // var y = year ? year : "2001";
+        var data = usda.filter((row) => (row.year).toString() === year);
+        // console.log(data)
+        
+        Object.entries(data).forEach(function([key,value]){
+            counttest.push(value.fi_count)
+            totaltest.push(value.total_hh)
+            categorytest.push(value.category)
+        })
+        var counttest2 = counttest.reverse()
+        var categorytest2 = categorytest.reverse()
+        // console.log(`count: ${counttest}`)
+        // console.log(`count2: ${counttest2}`)
+         
         // get value for chart
-        var fiCount = item.fi_count
+        var fiCount = data.map(item => item.fi_count).reverse()
         // console.log(`FI Counts: ${fiCount}`)
         // get labels for bar chart
-        var categoryChoice = item.category
+        var categoryChoice = data.map(item => item.category).reverse()
         // console.log(`Categories: ${categoryChoice}`)
         // get value for hover
-        var fiRate = item.fi_rate
+        var fiRate = data.map(item => item.fi_rate).reverse();
         // console.log(`FI Rates: ${fiRate}`)
+        var demoTotal = data.map(item => item.total_hh).reverse();
+        // console.log(`Total HH: ${demoTotal}`)
+        var yearChoice = data.map(item => item.year).reverse()
     
-
         // create trace1 for bar
         var trace1 = {
-            x: fiCount,
-            y: categoryChoice,
-            text: fiRate, 
+            x: counttest,
+            y: categorytest2,
+            text: "Food Insecurity (%)", 
             type: "bar",
-            // orientation: "h",
+            orientation: "h",
             marker: {
                 color: 'rgb(138,202,225)'
             }
-            };
+        };
 
         // data variable
-        var data = [trace1];
+        var barData = [trace1];
 
         // apply layout
         var layout = {
-            title: "Food Insecurity in the US",
+            title: "Food Insecurity Throughout the Years",
             margin: {
-            l: 90,
+            l: 170,
             r: 40,
-            t: 40,
-            b: 40
+            t: 50,
+            b: 50
             }
         };
 
         // render the bar plot
-        Plotly.newPlot("bar", data, layout);
+        Plotly.newPlot("bar", barData, layout);
 
-            // create trace2 for bubble
-            var trace2 = {
+        var trace3 = {
             x: categoryChoice,
-            y: fiCount,
-            text: fiRate,
+            y: counttest2,
+            text: "Food Insecure Count", 
+            type: "scatter",
             mode: 'markers',
+            // orientation: "h",
             marker: {
-                color: categoryChoice,
-                size: fiCount,
-                symbol: ['circle', 'square', 'bowtie', 'cross', 'star', 'pentagon', 'star-square', 'circle-cross', 'hash'],
-                colorscale: 'portland'
+                color: 'lightseagreen'
             }
-            };
+        };
 
         // data variable
-        var data = [trace2];
+        var data3 = [trace3];
 
         // apply layout
-        var layout = {
-            title: "FI Data",
-            height: 400,
-            width: 800
+        var layout3 = {
+            title: "Count of Food Insecure Individuals",
+            yaxis: {title: "Count per 1000"},
+            xaxis: {fontsize: 8},
+            margin: {
+                l: 100,
+                r: 40,
+                t: 50,
+                b: 80
+                }
         };
+
         // render the bar plot
-        Plotly.newPlot("bubble", data, layout);
-    }
+        Plotly.newPlot("scatter", data3, layout3);
+
+        // // create trace2 for bubble
+        // var trace2 = {
+        // x: categoryChoice,
+        // y: fiCount,
+        // text: "Food Insecure # per Demographic",
+        // mode: 'markers',
+        // marker: {
+        //     color: categoryChoice,
+        //     size: fiCount,
+        //     symbol: ['circle', 'square', 'bowtie', 'cross', 'star', 'pentagon', 'star-square', 'circle-cross', 'hash'],
+        //     colorscale: 'portland'
+        // }
+        // };
+
+        // // data variable
+        // var data2 = [trace2];
+
+        // // apply layout
+        // var layout2 = {
+        //     title: "FI Data",
+        //     height: 400,
+        //     width: 800
+        // };
+        // // render the bar plot
+        // Plotly.newPlot("bubble", data2, layout2); 
+
+        var trace4 = {
+            labels: categorytest,
+            values: totaltest,
+            type: 'pie'
+        };
+
+        var data4 = [trace4];
+
+        var layout4 = {
+            title: "Population per Category",
+            height: 400,
+            width: 500
+        };
+
+        Plotly.newPlot('pie', data4, layout4);
+
+        var trace4 = {
+            labels: categorytest,
+            values: counttest,
+            type: 'pie'
+        };
+
+        var data4 = [trace4]
+
+        var layout4 = {
+            title: "FI Population",
+        };
+
+        Plotly.newPlot('pie2', data4, layout4);
+        
     });
 }
 
-function optionChanged(name) {
-    JSONplots(name);
-
+function optionChanged(yearChoice) {
+    console.log(yearChoice)
+    JSONplots(yearChoice);
 }
+
+// updating by year vs category
 
 function init() {
     var dropdownMenu = d3.select('#selDataset');
-    // console.log(dropdownMenu)
     
     d3.json("/api/usda").then(function(data) {
-        data.forEach(myFunction); 
-        function myFunction(item, index) {
-        var yearChoice = item.year
-        console.log(yearChoice)
-        Object.entries(yearChoice).forEach(name => {
-            dropdownMenu.append('option').text(name).property('value', name);
+        
+        var yearChoice = data.map(item => item.year);
+        yearChoice = yearChoice.filter((year, i, a) => a.indexOf(year) === i);
+        // console.log(yearChoice)
+        Object.values(yearChoice).forEach(year => {
+            dropdownMenu.append('option').text(year).property('value', year);
         });
-    JSONplots(yearChoice[0])
-    }
-    // select first sample in drop down to call all functions
-    // JSONplots(yearChoice[0])
-
-
+    
+        // select first sample in drop down to call all functions
+        // console.log(parseInt(yearChoice[0]));
+        var x = parseInt(yearChoice[0])
+        optionChanged(x);
     });
-
 }
 
 init();
+
+
+
+// if want to change by category vs. by year
+
+// function init() {
+//     var dropdownMenu = d3.select('#selDataset');
+//     // console.log(dropdownMenu)
+//     JSONplots()
+//     optionChanged()
+//     d3.json("/api/usda").then(function(data) {
+        
+//         var categoryChoice = data.map(item => item.category)
+//         // console.log(yearChoice)
+//         Object.values(categoryChoice).forEach(year => {
+//             dropdownMenu.append('option').text(year).property('value', year);
+//         });
+    
+//     // select first sample in drop down to call all functions
+//     // JSONplots(categoryChoice[0])
+//     });
+// }
+// init();
+// optionChanged();
+
+
+
+
+
+
