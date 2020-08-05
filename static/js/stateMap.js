@@ -25,31 +25,26 @@ info.onAdd = function (myMap) {
 
 // method that we will use to update the control based on feature properties passed
 info.update = function (feature) {
-  if (feature.properties.stateData === undefined) {
-    feature.properties.stateData = 'None'
-   }
+  // if (feature.properties.stateData === undefined) {
+  //   feature.properties.stateData = 'None'
+  //  }
       this._div.innerHTML = '<h4>US Food Insecurity</h4>' +  (feature ?
-        '<b>' + feature.properties.countyData.county+ '</b><br />' + "<b>FI Rate: </b> " + feature.properties.countyData.fi_rate + '%' + "<b>FI Count: </b> " 
-        + feature.properties.countyData.fi_count + '<br>' + "<b>FI Child Rate: </b> " + 'props.fi_rate_child' + '%' + ' ' + 
-        "<b>FI Child Count: </b> " + feature.properties.countyData.fi_count_child + '<br>' + "<b>Below 185 FPL (child): </b>" + 
-        feature.properties.countyData.fi_rate_fpl + "%" + "<br>" + "<b>Budget Shortfall:</b> $" + feature.properties.countyData.budget_shortfall
+        '<b>' + feature.properties.stateData.county+ '</b><br />' + "<b>FI Rate: </b> " + feature.properties.stateData.fi_rate + '%' + "<b>FI Count: </b> " 
+        + feature.properties.stateData.fi_count + '<br>' + "<b>FI Child Rate: </b> " + 'props.fi_rate_child' + '%' + ' ' + 
+        "<b>FI Child Count: </b> " + feature.properties.stateData.fi_count_child + '<br>' + "<b>Below 185 FPL (child): </b>" + 
+        feature.properties.stateData.fi_rate_fpl + "%" + "<br>" + "<b>Budget Shortfall:</b> $" + feature.properties.stateData.budget_shortfall
         : 'Hover over a county!');
-
-  // this._div.innerHTML = '<h4>US Food Insecurity</h4>' + '<hr>' + 'Choose a state for more info'
+  // this._div.innerHTML = '<h4>US Food Insecurity by State</h4>' +  (feature ?
+  //   '<b>' + "testing"+ '</b><br />' + feature.properties.countyData.county
+  //   : 'Choose a state for more info!');
 };
-//     this._div.innerHTML = '<h4>US Food Insecurity</h4>' +  (props ?
-//         '<b>' + props.county+ '</b><br />' + "<b>FI Rate: </b> " + props.fi_rate + '%' + "<b>FI Count: </b> " 
-//         + props.fi_count + '<br>' + "<b>FI Child Rate: </b> " + 'props.fi_rate_child' + '%' + ' ' + 
-//         "<b>FI Child Count: </b> " + props.fi_count_child + '<br>' + "<b>Below 185 FPL (child): </b>" + 
-//         props.fi_rate_fpl + "%" + "<br>" + "<b>Budget Shortfall:</b> $" + props.budget_shortfall
-//         : 'Hover over a county!');
-// };
+
 
 info.addTo(myMap);
 
 function style(feature) {
   return {
-      fillColor: "gainsboro", //getColor(feature.properties.countyData.fi_rate),
+      fillColor: "lightsalmon", //getColor(feature.properties.countyData.fi_rate),
       weight: 2,
       opacity: 1,
       color: 'white',
@@ -59,11 +54,11 @@ function style(feature) {
 }
 
 function getColor(r) {
-  return r > 5  ? 'slateblue' :
-         r > 10  ? 'wheat' :
-         r > 15  ? 'old lace' :
-         r > 20   ? 'seashell' :
-         r > 25   ? 'rosybrown' :
+  return r > 5  ? 'goldenrod' :
+         r > 10  ? 'honeydew' :
+         r > 15  ? 'lightsalmon' :
+         r > 20   ? 'lavenderblush' :
+         r > 25   ? 'peachpuff' :
                     'slategrey';
 }
 
@@ -122,7 +117,7 @@ layer.on({
     mouseout: function(event) {
       layer = event.target;
       layer.setStyle({
-        fillOpacity: 0.5
+        fillOpacity: 0.7
       });
     },
   //   click: function(event) {
@@ -142,47 +137,21 @@ d3.json("../static/data/geoJsonState.json").then(function(geoJsonData) {
   // perform GET req
   d3.json("/api/states").then(DATA => {
     geoJsonData.features.forEach(feature => {
-      var state_Name = Object.keys(DATA)
-      var state_Data = Object.values(DATA)
-      var fiRate = Object.values(DATA).map(state => {
-          return state.fi_rate
-      });
+      // var state_Name = Object.keys(DATA)
+      // var state_Data = Object.values(DATA)
+      // var fiRate = Object.values(DATA).map(state => {
+      //     return state.fi_rate
+      // });
       var stateName = feature.properties.NAME;
       var state = Object.keys(DATA).find(state => {
         return stateName === DATA[state].state;
       });
       feature.properties.stateData = DATA[state];
     });
-          // console.log('inside:', DATA) 
-        // console.log(stateName)
-
-      // console.log('outside:', x.fi_rate)
-
-      // create function to get color
-      // function getColor(r) {
-      //     return r > 5  ? 'palevioletred' :
-      //            r > 10  ? 'lawngreen' :
-      //            r > 15  ? 'peachpuff' :
-      //            r > 20   ? 'mistyrose' :
-      //            r > 25   ? 'papayawhip' :
-      //                       'gainsboro';
-      //   }
-      //   function style(feature) {
-      //     return {
-      //         fillColor: "orchid", //getColor(feature.properties.countyData.fi_rate),
-      //         weight: 2,
-      //         opacity: 1,
-      //         color: 'white',
-      //         dashArray: '2',
-      //         fillOpacity: 0.7
-      //     };
-      //   }
-
+          
         // create choropleth
         geojsonmap= L.choropleth(geoJsonData, {
-            valueProperty: "x.fi_rate",
-            // set color scale
-            scale: ["papayawhip", "palevioletred", "mistyrose", "peachpuff"],
+            valueProperty: "fi_rate",
             steps: 10,
             mode: "q",
             style: style,

@@ -8,56 +8,40 @@ function JSONplots(yearChoice) {
     var year = yearChoice;
     d3.json("/api/usda").then((usda) => {
         // console.log(data)
-        var counttest = []
-        var totaltest = []
-        var categorytest = []
+        var ficount = []
+        var total = []
+        var category = []
         var fi_rate = []
 
         // console.log(year)
         // var y = year ? year : "2001";
         var data = usda.filter((row) => (row.year).toString() === year);
         // console.log(data)
+
         // get value for chart
         Object.entries(data).forEach(function([key,value]){
-            counttest.push(value.fi_count)
-            totaltest.push(value.total_hh)
-            categorytest.push(value.category)
+            ficount.push(value.fi_count)
+            total.push(value.total_hh)
+            category.push(value.category)
             fi_rate.push(value.fi_rate)
         })
-        var counttest2 = counttest.reverse()
-        var categorytest2 = categorytest.reverse()
-        var totaltest2 = totaltest.reverse()
+        var fiCOUNT = ficount.reverse()
         var fiRate = fi_rate.reverse()
-        // console.log(`count: ${counttest}`)
-        // console.log(`count2: ${counttest2}`)
-         
-        // // get value for chart
-        var fiCount = data.map(item => item.fi_count)
-        // // console.log(`FI Counts: ${fiCount}`)
-        // // get labels for bar chart
-        // var categoryChoice = data.map(item => item.category).reverse()
-        // // console.log(`Categories: ${categoryChoice}`)
-        // // get value for hover
-        var fi_Rate = data.map(item => item.fi_rate)
-        // // console.log(`FI Rates: ${fiRate}`)
-        // var demoTotal = data.map(item => item.total_hh).reverse();
-        // // console.log(`Total HH: ${demoTotal}`)
-        // var yearChoice = data.map(item => item.year).reverse()
-    
-        // create trace1 for bar
-        var trace1 = {
+        var catergoryChoice = category.reverse()
+        
+        var trace = {
             x: fiRate,
-            y: categorytest,
+            y: category,
             text: "Food Insecurity (%)", 
             type: "bar",
             orientation: "h",
             marker: {
-                color: 'rgb(138,202,225)'
+                color: 'rgb(145, 212, 224)'
             }
         };
 
         // data variable
-        var barData = [trace1];
+        var barData = [trace];
 
         // apply layout
         var layout = {
@@ -73,25 +57,25 @@ function JSONplots(yearChoice) {
         // render the bar plot
         Plotly.newPlot("bar", barData, layout);
 
-        var trace3 = {
-            x: categorytest,
-            y: counttest2,
-            text: "Food Insecure Count", 
+        var traceScatter = {
+            x: category,
+            y: fiCOUNT,
+            text: category, 
             type: "scatter",
             mode: 'markers',
             // orientation: "h",
             marker: {
-                color: 'lightseagreen',
-                size: '10px'
+                color: 'rgb(60, 202, 178)',
+                size: 20
             }
         };
 
         // data variable
-        var data3 = [trace3];
+        var dataScatter = [traceScatter];
 
         // apply layout
-        var layout3 = {
-            title: "Count of Food Insecure Individuals",
+        var layoutScatter = {
+            title: "Count of Food Insecure Household Individuals",
             yaxis: {title: "Count per 1000"},
             xaxis: {fontsize: 10},
             height: 500,
@@ -104,13 +88,13 @@ function JSONplots(yearChoice) {
                 },
         };
 
-        // render the bar plot
-        Plotly.newPlot("scatter", data3, layout3);
+        // render plot
+        Plotly.newPlot("scatter", dataScatter, layoutScatter);
 
         // create trace2 for bubble
-        var trace2 = {
-        x: categorytest,
-        y: counttest2,
+        var traceBubble = {
+        x: category,
+        y: fiCOUNT,
         text: "count",
         mode: 'markers',
         ids: "testing",
@@ -130,11 +114,11 @@ function JSONplots(yearChoice) {
         }
         };
         // data variable
-        var data2 = [trace2];
+        var dataBubble = [traceBubble];
 
         // apply layout
-        var layout2 = {
-            title: "Count of Individuals versus FI Rate",
+        var layoutBubble = {
+            title: "Count of Household Individuals versus FI Rate",
             yaxis: {title: "Count per 1000"},
             xaxis: {
                 tickangle: -35,
@@ -143,18 +127,18 @@ function JSONplots(yearChoice) {
             
             margin: {
                 l: 50,
-                r: 80,
+                r: 60,
                 t: 90,
                 b: 100
                 },
             height: 400,
             width: 700
         };
-        // render the bar plot
-        Plotly.newPlot("bubble", data2, layout2); 
+        // render the plot
+        Plotly.newPlot("bubble", dataBubble, layoutBubble); 
 
         var trace4 = {
-            labels: categorytest,
+            labels: category,
             values: fiRate,
             hoverinfo: "label+value+text",
             hovertext: "FI Rate(%)",
@@ -169,15 +153,13 @@ function JSONplots(yearChoice) {
             width: 500,
             margin: {
                 l: 10,
-                r: 60,
+                r: 90,
                 t: 90,
                 b: 100
                 },
         };
 
         Plotly.newPlot('pie', data4, layout4);
-
-        
     });
 }
 
@@ -200,41 +182,12 @@ function init() {
             dropdownMenu.append('option').text(year).property('value', year);
         });
     
-        // select first sample in drop down to call all functions
-        // console.log(parseInt(yearChoice[0]));
         var x = parseInt(yearChoice[0])
         optionChanged(x);
     });
 }
 
 init();
-
-
-
-// if want to change by category vs. by year
-
-// function init() {
-//     var dropdownMenu = d3.select('#selDataset');
-//     // console.log(dropdownMenu)
-//     JSONplots()
-//     optionChanged()
-//     d3.json("/api/usda").then(function(data) {
-        
-//         var categoryChoice = data.map(item => item.category)
-//         // console.log(yearChoice)
-//         Object.values(categoryChoice).forEach(year => {
-//             dropdownMenu.append('option').text(year).property('value', year);
-//         });
-    
-//     // select first sample in drop down to call all functions
-//     // JSONplots(categoryChoice[0])
-//     });
-// }
-// init();
-// optionChanged();
-
-
-
 
 
 

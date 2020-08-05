@@ -1,16 +1,170 @@
-
 circle {
-    fill: rgb(127, 156, 235);
+    fill: rgb(202, 194, 231);
     opacity: 0.3;
-    stroke: white;
-}
-text {
-    font-family: "Helvetica Neue", Helvetica, sans-serif;
-    fill: white;
-    font-size: 10px;
-    text-anchor: middle;
-}
-body {
+    stroke: rgb(75, 5, 167);
     /* position: -ms-page; */
-    margin-left: 10%;
-}
+    margin-left: 50%;
+    padding-left: 20%;
+  }
+  text {
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    fill: white; 
+    font-size: 11px;
+    text-anchor: middle;
+  }
+
+  .leaflet-popup-content {
+    text-align: center;
+  }
+
+  #info_bubble {
+    color: rgb(110, 120, 139);
+    font-size: 14px;
+  }
+  
+  .text-center {
+    background-color: rgb(131, 171, 245);
+    color: rgb(253, 250, 239);
+    text-align: center!important;
+  }
+  
+  .row {
+    background-color: rgb(131, 171, 245);
+    padding-top: 10px;
+  }
+  
+  .well {
+    color: rgb(113, 138, 184);
+    background-color: #ffffff;
+  }
+  
+  h5{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: rgb(113, 138, 184);
+    ;
+  }
+  
+  h4{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin-bottom: 0px;
+    color: #ffffff;
+    padding-bottom: 10px;
+    text-indent: 60;
+    margin-left: 32%;
+    scroll-padding-left: 50px;
+    font-size: 20px;
+  
+  }
+  
+  .footer {
+    background-color: rgb(154, 175, 212);
+    border-top: rgb(94, 131, 201);
+    border-top-style: solid;
+    border-top-width: 5px;
+    padding-bottom: 0px;
+    padding-top: 10px;
+    color: rgb(134, 103, 103);
+    margin-right: 180px;
+  }
+  
+  .dropdown-menu {
+   background-color: #dee7f1;
+   border-color: rgb(159, 190, 248);
+  }
+  
+  #navbarSupportedContent{
+    background-color: rgb(131, 171, 245);
+    box-shadow: 0 5px #c5d5e7;
+  }
+  
+  .nav-item a {
+    color: rgb(100, 99, 99);
+  }
+  
+  .navbar-brand {
+    background-color: rgb(131, 171, 245);
+    margin-left: 10px;
+    /* font-weight: bold; */
+    font-family: Georgia, Times, 'Times New Roman', serif;
+    text-align: center!important;
+    padding-top: 3px;
+    padding: inherit;
+    border-radius: 2px;
+    box-shadow: 0 5px #c5d5e7;
+  }
+  
+  #navbarSupportedContent{
+    background-color: rgb(131, 171, 245);
+    border-radius: 2px;
+  }
+  
+  .rounded {
+    width: 50%!important;
+    height: 50%!important;
+    margin-right: 20px;
+  }
+  
+  p {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin-bottom: 0px;
+    color: #ffffff;
+    padding-bottom: 10px;
+    text-indent: 60;
+    margin-left: 25%;
+    scroll-padding-left: 50px;
+    font-size: 20px;
+  } 
+  
+  #bubble_title { 
+    padding-top: 30px;
+    margin-left: 30px;
+    padding-bottom: 15px;
+    color: #ffffff; 
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    text-indent: 45px;
+    font-size: 72px;
+  }
+  
+  .col-6 {
+    max-width: 50%;
+  }
+  
+  .col-3 {
+    max-width: 100%;
+    padding-bottom: 20px;
+  }
+  
+  .box {
+    background-color: rgb(131, 171, 245);
+    padding-bottom: 0px;
+    
+  }
+  
+  .box h6 {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: rgb(90, 118, 142);
+    font-weight: bold;
+    text-indent: 20px;
+  }
+  
+  @media screen and (max-width: 600px) {
+    .box {
+      background-color: #f0f4fa;
+    }
+   
+    .navbar-brand {
+   
+      background-color: rgb(131, 171, 245);
+      box-shadow: 0 5px rgb(131, 171, 245);
+      padding-top: 15px;
+     
+    }
+    #navbarSupportedContent{
+      background-color: rgb(227, 236, 252);
+      border-radius: 2px;
+    }
+    
+    .navbar-expand-lg {
+      background-color: rgb(131, 171, 245) !important;
+    }
+  }

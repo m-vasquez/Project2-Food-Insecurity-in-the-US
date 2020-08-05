@@ -1,13 +1,3 @@
-/* body {
-  padding: 0;
-  margin: 0;
-}
-
-#map_id,
-body,
-html {
-  height: 100%;
-} */
 
 .leaflet-popup-content {
   text-align: center;
@@ -30,7 +20,6 @@ html {
 }
 
 h5{
-  /* font-weight: bold; */
   font-family: Georgia, 'Times New Roman', Times, serif;
   color: rgb(113, 138, 184);
   ;
@@ -40,7 +29,6 @@ h4{
   font-family: Georgia, 'Times New Roman', Times, serif;
   margin-bottom: 0px;
   color: #ffffff;
-  /* padding-top: 5px; */
   padding-bottom: 10px;
   text-indent: 60;
   margin-left: 32%;
@@ -49,29 +37,44 @@ h4{
 
 }
 
-/* #bar {
-  padding-left: 10px;
+#landing_title { 
+  padding-top: 70px;
   margin-left: 10px;
-}  */
+  margin-right: 13px;
+  padding-bottom: 15px;
+  color: #ffffff; 
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  text-indent: 45px;
+  font-size: 74px;
+  /* font-weight: bold; */
+}
+
+.title_info {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  color: rgb(110, 120, 139);
+  margin-right: 5%;
+  margin-left: 5%;
+
+}
+
 
 #bubble {
   width: 100%;
   height: 60%;
-  margin-left: 24%;
-  padding-left: 80px ;
+  padding-left: 130px ;
 }
 
 #scatter {
   padding-left: 15px;
   width: 90%;
   height: 100%;
-  /* padding-bottom: 10px; */
+  
 }
 
 #pie {
-  margin-right: 100%;
   width: 90%;
-  /* padding-right: 55%; */
+  padding-right: 30%;
+  
 }
 
 .footer {
@@ -80,7 +83,7 @@ h4{
   border-top-style: solid;
   border-top-width: 5px;
   padding-bottom: 0px;
-  padding-top: 5px;
+  padding-top: 10px;
   color: rgb(134, 103, 103);
   margin-right: 180px;
 }
@@ -122,37 +125,16 @@ h4{
   margin-right: 20px;
 }
 
-/* .title {
-  color: #0BADA5;
-  font-family: Georgia, 'Times New Roman', Times, serif;
-  padding-top: 95px;
-  font-weight: bold;
-  font-size: 30px;
-  text-indent: 20px;
-} */
-
 p {
   font-family: Georgia, 'Times New Roman', Times, serif;
   margin-bottom: 0px;
   color: #ffffff;
-  /* padding-top: 5px; */
   padding-bottom: 10px;
   text-indent: 60;
   margin-left: 25%;
   scroll-padding-left: 50px;
   font-size: 20px;
 } 
-
-#landing_title { 
-  /* margin-top: 0px; */
-  padding-top: 70px;
-  margin-left: 30px;
-  padding-bottom: 15px;
-  color: #ffffff; 
-  font-family: Georgia, 'Times New Roman', Times, serif;
-  text-indent: 45px;
-  font-size: 72px;
-}
 
 .col-6 {
   max-width: 50%;
@@ -169,26 +151,6 @@ p {
   
 }
 
-/* .box p {
-  font-family: Arial, Helvetica, sans-serif;
-  margin-top: 35px;
-  color: rgb(90, 118, 142);
-  padding: 0px 20px 15px;
-  font-size: 16px;
-} */
-
-/* #visual_box p {
-  font-family: Arial, Helvetica, sans-serif;
-  margin-top: 5px;
-  color: rgb(90, 118, 142);
-  padding: 0px 20px 15px;
-  font-size: 16px;
-} */
-
-/* .box li {
-  font-family: Arial, Helvetica, sans-serif;
-  color: rgb(90, 118, 142);
-} */
 .box h6 {
   font-family: Georgia, 'Times New Roman', Times, serif;
   color: rgb(90, 118, 142);
@@ -200,16 +162,9 @@ p {
   .box {
     background-color: #f0f4fa;
   }
-   /* .active, .img-thumbnail:hover {
-    border-color: rgb(81, 11, 173);
-    border-width: 2px;
-  }
-  .img-thumbnail:hover {
-    border-color: rgb(147, 88, 255);
-  } */
-
+ 
   .navbar-brand {
-    /* padding: 5px; */
+ 
     background-color: rgb(131, 171, 245);
     box-shadow: 0 5px rgb(131, 171, 245);
     padding-top: 15px;
@@ -223,69 +178,4 @@ p {
   .navbar-expand-lg {
     background-color: rgb(131, 171, 245) !important;
   }
-
-  /* .navbar-toggler {
-    background-color: rgb(247, 247, 247);
-    border-style: ridge;
-
-  } */
-
-/* 
-.container {
-  background-color:rgb(0, 140, 255);
-} */
-
-/* h1 {
-  background-color: cornflowerblue;
-} */
-/* body {
-  margin: 0;
-  padding: 0;
-  background-color:rgb(131, 171, 245);
-} */
-
-
-/* #map_id {
-  height: 600px;
-  width: 600px;
-} */
-
-
-
-/* CSS from the Leaflet-Choropleth documentation
-.legend {
-  padding: 6px 8px;
-  font: 12px Arial, Helvetica, sans-serif;
-  font-weight: bold;
-  color: #555;
-  background: #fff;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 5px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
-
-.legend ul {
-  padding: 0;
-  margin: 0;
-  clear: both;
-  list-style-type: none;
-}
-
-.legend li {
-  display: inline-block;
-  width: 30px;
-  height: 22px;
-}
-
-.legend .min {
-  float: left;
-  padding-bottom: 5px;
-}
-
-.legend .max {
-  float: right;
-}
-
-h1 {
-  text-align: center;
-} */

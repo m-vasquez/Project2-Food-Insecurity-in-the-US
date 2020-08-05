@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -58,11 +59,17 @@
               <h1 class="title" id="landing_title">Food Insecurity in the United States</h1>
               <p><h4>Utilize a map to see FI levels across the US</h4></p> 
               <p> Make use of the interactive charts below to explore the FI data further</p>
+              <h5 class="title_info"><b>What is Food Insecurity?</b> It refers to USDA’s measure of lack of access, 
+                at times, to enough food for an active, healthy life for all household members and 
+                limited or uncertain availability of nutritionally adequate foods. Food-insecure households 
+                are not necessarily food insecure all the time. Food insecurity may reflect a household’s need 
+                to make trade-offs between important basic needs, such as housing or medical bills, and purchasing 
+                nutritionally adequate foods.
+                Conversely, <b>Food Security</b> is access by all people at all times to enough food for an active, healthy life—is one requirement for a healthy, well-nourished population
+                </h5>
               <hr>
           </div>
         </div>
-<!-- map info -->
-  <div id="map_id" width="250" height="150"></div>
 
    <div class ="container">
    
@@ -86,39 +93,26 @@
       </div>
     </div>
   </div>
- 
-    <!-- <div class="col-md-8">
-        <div id="scatter"></div>
-      </div> -->
-    <!-- </div></div> -->
-    <div class ="container"> 
-      <div class="col-md-3" style = "padding-top: 10px;">
+    <div class ="row"> 
+      <div class="col-md-4" style = "padding-top: 10px;">
         <div id="pie"></div>
       </div>
     <div class="col-md-7" style = "padding-top: 10px">
         <div id="bubble"></div>
       </div>
     </div>
-  <!-- </div>
-  </div> -->
-
+ <!-- d3/plotly-->
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
   <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
   <!-- API key -->
   <script type="text/javascript" src="../static/js/config.js"></script>
-  <!-- <script type="text/javascript" src="../static/js/choreographer.js"></script>
-  <script type="text/javascript" src="../static/js/animation.js"></script>
-  <script type="text/javascript" src="../static/js/getInjectedTransformString.js"></script>
-  <script type="text/javascript" src="../static/js/defaultAnimation.js"></script> -->
-  JS
+  <!-- js -->
   <script type="text/javascript" src="../static/js/chroma.js"></script>
   <script type="text/javascript" src="../static/js/chart.js"></script>
-  <!-- <script type="text/javascript" src="../static/js/countyMap.js"></script> -->
+  <!-- footer -->
   <div class="footer text-center" style="margin-bottom:0">
     <p>&copy; Copyright Marlene Vasquez 2020</p>
   </div>  
