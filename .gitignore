@@ -1,8 +1,11 @@
-
+/test/*
 /.ipynb_checkpoints/*
 /Images/*
-
 /__pycache__/*
-pg_admin_pw.py
-config.py
+climate_app_practice.py
 postgres_pw.py
+pgadmin_pw.py
+config.py
+/__pycache__/*
+climate_starter.ipynb
+/ignore_files/*
