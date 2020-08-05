@@ -28,12 +28,12 @@ info.update = function (feature) {
   // if (feature.properties.stateData === undefined) {
   //   feature.properties.stateData = 'None'
   //  }
-      this._div.innerHTML = '<h4>US Food Insecurity</h4>' +  (feature ?
+      this._div.innerHTML = '<h4>US Food Insecurity by State</h4>' +  (feature ?
         '<b>' + feature.properties.stateData.county+ '</b><br />' + "<b>FI Rate: </b> " + feature.properties.stateData.fi_rate + '%' + "<b>FI Count: </b> " 
         + feature.properties.stateData.fi_count + '<br>' + "<b>FI Child Rate: </b> " + 'props.fi_rate_child' + '%' + ' ' + 
         "<b>FI Child Count: </b> " + feature.properties.stateData.fi_count_child + '<br>' + "<b>Below 185 FPL (child): </b>" + 
         feature.properties.stateData.fi_rate_fpl + "%" + "<br>" + "<b>Budget Shortfall:</b> $" + feature.properties.stateData.budget_shortfall
-        : 'Hover over a county!');
+        : 'Hover over a state for more information!');
   // this._div.innerHTML = '<h4>US Food Insecurity by State</h4>' +  (feature ?
   //   '<b>' + "testing"+ '</b><br />' + feature.properties.countyData.county
   //   : 'Choose a state for more info!');
@@ -52,6 +52,7 @@ function style(feature) {
       fillOpacity: 0.7
   };
 }
+console.log(feature)
 
 function getColor(r) {
   return r > 5  ? 'goldenrod' :
@@ -62,22 +63,22 @@ function getColor(r) {
                     'slategrey';
 }
 
-var legend = L.control({position: 'bottomright'});
+// var legend = L.control({position: 'bottomright'});
 
-legend.onAdd = function (myMap) {
+// legend.onAdd = function (myMap) {
 
-  var div = L.DomUtil.create('div', 'info legend'),
-      colorGrades = [0, 5, 10, 15, 20, 25];
-      div.innerHTML += "<h4><b>Food Insecurity</b></h4>" 
-  // loop through our density intervals and generate a label with a colored square for each interval
-  for (var i = 0; i < colorGrades.length; i++) {
-      div.innerHTML +=
-          '<i style="background:' + getColor(colorGrades[i] + 1) + '"></i> ' + 
-          colorGrades[i] + (colorGrades[i + 1] ? '&ndash;' + colorGrades[i + 1] + '%' + '<br>' : '+');
-  }
-  return div;
-};
-legend.addTo(myMap);
+//   var div = L.DomUtil.create('div', 'info legend'),
+//       colorGrades = [0, 5, 10, 15, 20, 25];
+//       div.innerHTML += "<h4><b>Food Insecurity</b></h4>" 
+//   // loop through our density intervals and generate a label with a colored square for each interval
+//   for (var i = 0; i < colorGrades.length; i++) {
+//       div.innerHTML +=
+//           '<i style="background:' + getColor(colorGrades[i] + 1) + '"></i> ' + 
+//           colorGrades[i] + (colorGrades[i + 1] ? '&ndash;' + colorGrades[i + 1] + '%' + '<br>' : '+');
+//   }
+//   return div;
+// };
+// legend.addTo(myMap);
 
 
 function highlightFeature(e) {
