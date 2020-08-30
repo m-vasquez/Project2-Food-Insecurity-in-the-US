@@ -30,26 +30,26 @@ function getColor(feature) {
   // console.log(feature)
   switch (true) {
     case feature <= 0:
-      return "red";
+      return "mintcream";
     case feature <= 5:
-      return "dodgerblue";
+      return "mediumaquamarine";
     case feature <= 10:
-      return "slateblue";
+      return "lightgreen";
     case feature <= 15:
-      return "rebeccapurple";
+      return "lightseagreen";
     case feature <= 20:
-      return "mediumpurple"; 
+      return "lightsalmon"; 
     case feature <= 25:
-      return "orchid"; 
+      return "orange"; 
     case feature <= 35:
-      return "indianred"; 
+      return "red"; 
     default:
-      return "lightsalmon";
+      return "lightgrey";
   }
 }
 
 function styleCounty(feature) {
-  var color = "lightsalmon"
+  var color = "lightgrey"
   if (feature.properties.countyData !== undefined) {
 
     color = getColor(feature.properties.countyData.fi_rate)
