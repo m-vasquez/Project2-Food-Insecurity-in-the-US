@@ -129,6 +129,7 @@ d3.json("../static/data/geoJsonCounty.json").then(function (geoJsonData) {
         return countyGeoId === countiesData[county].geoid;
       });
       feature.properties.countyData = countiesData[county];
+      console.log(feature.properties.countyData)
 
     });
 
