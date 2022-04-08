@@ -1,1 +1,1 @@
-web: gunicorn food_insecurity.app:app
+web: gunicorn app:app
