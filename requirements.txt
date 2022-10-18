@@ -127,7 +127,7 @@ prometheus-client==0.7.1
 prompt-toolkit==3.0.4
 psutil==5.7.0
 psycopg2==2.8.5
-py==1.8.1
+py==1.11.0
 pycodestyle==2.5.0
 pycosat==0.6.3
 pycparser==2.20
